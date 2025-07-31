@@ -9,7 +9,9 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import firstfoundlogo from "../assets/firstfound.png";
-import pic from "../assets/pics_1.jpeg"
+import pic from "../assets/pics_1.jpeg";
+import picw from "../assets/p2.jpeg"
+
 
 function Homepage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -71,18 +73,29 @@ function Homepage() {
       backers: 156,
     },
     {
-        id: 5,
-        name: "Food Innovation",
-        category: "F&B",
-        raised: "11.2L",
-        target: "14L",
-        progress: 80,
-        image: pic,  
-        rating: 4.8,
-        backers: 203,
-      },
-      
+      id: 5,
+      name: "Food Innovation",
+      category: "F&B",
+      raised: "11.2L",
+      target: "14L",
+      progress: 80,
+      image: pic,
+      rating: 4.8,
+      backers: 203,
+    },
+    {
+      id: 6,
+      name: "Smart Watch",
+      category: "Wearable Tech",
+      raised: "9.2L",
+      target: "12L",
+      progress: 77,
+      image: picw,
+      rating: 4.6,
+      backers: 198,
+    },
   ];
+  
 
   useEffect(() => {
     const timer = setInterval(() => {

@@ -11,33 +11,28 @@ function Register() {
     email: '',
     password: '',
     country: 'India',
-    role: ['user'],
+    role: 'user', // Single role selected
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    if (type === 'checkbox') {
-      const updatedRoles = checked
-        ? [...formData.role, value]
-        : formData.role.filter((r) => r !== value);
-      setFormData({ ...formData, role: updatedRoles });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch('https://firstfound-platform-backend.vercel.app/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        'https://firstfound-platform-backend.vercel.app/auth/register',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await res.json();
 
@@ -131,13 +126,13 @@ function Register() {
           <div>
             <label className="block text-sm text-[#6b3e26] font-medium mb-1">Role</label>
             <div className="flex gap-4">
-              {['user', 'admin', 'invester'].map((role) => (
+              {['user', 'admin', 'investor'].map((role) => (
                 <label key={role} className="flex items-center gap-2 text-sm">
                   <input
-                    type="checkbox"
+                    type="radio"
                     name="role"
                     value={role}
-                    checked={formData.role.includes(role)}
+                    checked={formData.role === role}
                     onChange={handleChange}
                     className="accent-[#6b3e26]"
                   />
