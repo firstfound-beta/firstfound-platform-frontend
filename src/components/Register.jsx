@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../assets/firstfound.png'
+import logo from '../assets/firstfound.png';
 
 function Register() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -15,39 +16,51 @@ function Register() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     if (type === 'checkbox') {
       const updatedRoles = checked
         ? [...formData.role, value]
-        : formData.role.filter((role) => role !== value);
+        : formData.role.filter((r) => r !== value);
       setFormData({ ...formData, role: updatedRoles });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert('Registration submitted!');
-    navigate('/signin');
+
+    try {
+      const res = await fetch('https://firstfound-platform-backend.vercel.app/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert('✅ Registered successfully!');
+        navigate('/signin');
+      } else {
+        alert(`❌ Registration failed: ${data.message || 'Something went wrong'}`);
+      }
+    } catch (err) {
+      alert(`❌ Error: ${err.message}`);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#fefaf6] flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-xl bg-white shadow-xl rounded-xl p-8">
-
         <div className="flex justify-center items-center mb-6">
-          <img
-            src={logo}
-            alt="FirstFound Logo"
-            className="w-12 h-12 rounded-full shadow-md"
-          />
+          <img src={logo} alt="FirstFound Logo" className="w-12 h-12 rounded-full shadow-md" />
           <span className="ml-3 text-2xl font-bold text-[#6b3e26]">FirstFound</span>
         </div>
 
-        <h2 className="text-xl font-semibold text-center text-[#4a2e19] mb-6">
-          Create Your Account
-        </h2>
+        <h2 className="text-xl font-semibold text-center text-[#4a2e19] mb-6">Create Your Account</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex gap-4">
@@ -118,7 +131,7 @@ function Register() {
           <div>
             <label className="block text-sm text-[#6b3e26] font-medium mb-1">Role</label>
             <div className="flex gap-4">
-              {['user', 'admin'].map((role) => (
+              {['user', 'admin', 'invester'].map((role) => (
                 <label key={role} className="flex items-center gap-2 text-sm">
                   <input
                     type="checkbox"

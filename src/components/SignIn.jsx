@@ -1,42 +1,49 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from "../assets/firstfound.png"
+import logo from '../assets/firstfound.png';
 
 function SignIn() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert('Sign in submitted!');
 
+    try {
+      const res = await fetch('https://firstfound-platform-backend.vercel.app/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert('✅ Signed in successfully!');
+        localStorage.setItem('token', data.token); // 🟡 Save token
+        localStorage.setItem('user', JSON.stringify(data.user)); // (optional)
+        navigate('/'); // ✅ Redirect after login
+      }
+       else {
+        alert(`❌ Sign-in failed: ${data.message || 'Invalid credentials'}`);
+      }
+    } catch (err) {
+      alert(`❌ Error: ${err.message}`);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#fefaf6] flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md bg-white rounded-xl shadow-xl p-8">
-
         <div className="flex justify-center items-center mb-6">
-          <img
-            src={logo}
-            alt="FirstFound Logo"
-            className="w-12 h-12 rounded-full shadow-md"
-          />
+          <img src={logo} alt="FirstFound Logo" className="w-12 h-12 rounded-full shadow-md" />
           <span className="ml-3 text-2xl font-bold text-[#6b3e26]">FirstFound</span>
         </div>
 
-        <h2 className="text-xl font-semibold text-center text-[#4a2e19] mb-6">
-          Welcome Back
-        </h2>
+        <h2 className="text-xl font-semibold text-center text-[#4a2e19] mb-6">Welcome Back</h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
