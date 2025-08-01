@@ -23,16 +23,13 @@ function Register() {
     e.preventDefault();
 
     try {
-      const res = await fetch(
-        'https://firstfound-platform-backend.vercel.app/auth/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
 
       const data = await res.json();
 
@@ -132,9 +129,10 @@ function Register() {
                     type="radio"
                     name="role"
                     value={role}
-                    checked={formData.role === role}
-                    onChange={handleChange}
-                    className="accent-[#6b3e26]"
+                    checked={formData.role[0] === role}
+                    onChange={(e) =>
+                      setFormData({ ...formData, role: [e.target.value] })
+                    }
                   />
                   <span className="text-[#4a2e19] capitalize">{role}</span>
                 </label>
