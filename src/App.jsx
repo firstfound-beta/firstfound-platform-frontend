@@ -8,7 +8,6 @@ import PrivateRoute from './components/PrivateRoute';
 // import 'slick-carousel/slick/slick.css';
 // import 'slick-carousel/slick/slick-theme.css';
 // import 'aos/dist/aos.css';
-
 function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
