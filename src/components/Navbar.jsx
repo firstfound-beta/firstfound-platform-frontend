@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 import firstfoundlogo from "../assets/firstfound.png";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -149,12 +150,12 @@ function Navbar() {
               >
                 For Investors
               </a>
-              <a
-                href="#"
+              <Link
+                to="/about"
                 className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
               >
                 About
-              </a>
+              </Link>
             </div>
 
             <div className="hidden md:flex items-center space-x-4 animate-slideInRight">

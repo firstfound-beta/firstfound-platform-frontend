@@ -7,6 +7,8 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import StartupForm from './components/StartupForm';
+import About from './components/About';
+
 
 // Component to conditionally show navbar
 function AppContent() {
@@ -25,6 +27,8 @@ function AppContent() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
         <Route path="/launch" element={<StartupForm />} />
+        <Route path="/about" element={<About />} />
+
         
         {/* ✅ Protected route */}
         <Route

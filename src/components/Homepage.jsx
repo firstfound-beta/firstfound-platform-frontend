@@ -15,6 +15,36 @@ function Homepage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState({});
 
+  // inside the Homepage component, near the top:
+const testimonials = [
+    {
+      quote: "Amazing platform connecting innovative startups with early adopters!",
+      name: "Priya Sharma",
+      rating: 5,
+    },
+    {
+      quote: "Helped me discover and support some really cool products early on.",
+      name: "Rahul Verma",
+      rating: 4,
+    },
+    {
+      quote: "A one-stop destination for innovation in India.",
+      name: "Anjali Mehta",
+      rating: 5,
+    },
+  ];
+  
+  const [testimonialSlide, setTestimonialSlide] = useState(0);
+  
+  // Auto-slide every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTestimonialSlide((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [testimonials.length]);
+  
+
   const products = [
     {
       id: 1,
@@ -86,6 +116,7 @@ function Homepage() {
       rating: 4.6,
       backers: 198,
     },
+    
   ];
   
   useEffect(() => {
@@ -495,38 +526,69 @@ function Homepage() {
       </section>
 
       {/* Testimonials Section */}
-      <section
-        className="py-12 px-4 text-center bg-white"
-        id="testimonials"
-        data-animate
+      {/* Testimonials Section */}
+<section
+  className="py-12 px-4 text-center bg-white"
+  id="testimonials"
+  data-animate
+>
+  <div
+    className={`transition-all duration-800 ${
+      isVisible.testimonials
+        ? "animate-fadeInUp"
+        : "opacity-0 translate-y-8"
+    }`}
+  >
+    <h2 className="text-2xl font-semibold mb-8 text-[#6b3e26]">
+      What Our Users Say
+    </h2>
+
+    <div className="relative overflow-hidden max-w-xl mx-auto">
+      <div
+        className="flex transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${testimonialSlide * 100}%)` }}
       >
-        <div
-          className={`transition-all duration-800 ${
-            isVisible.testimonials
-              ? "animate-fadeInUp"
-              : "opacity-0 translate-y-8"
-          }`}
-        >
-          <h2 className="text-2xl font-semibold mb-4 text-[#6b3e26]">
-            What Our Users Say
-          </h2>
-          <div className="bg-gradient-to-r from-[#f5e5d8] to-[#fefaf6] p-8 rounded-lg max-w-2xl mx-auto">
-            <p className="text-gray-600 italic text-lg">
-              "Amazing platform connecting innovative startups with early
-              adopters!"
-            </p>
-            <div className="mt-4 flex justify-center">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star
-                  key={i}
-                  size={20}
-                  className="text-yellow-500 fill-current"
-                />
-              ))}
+        {testimonials.map((t, index) => (
+          <div key={index} className="flex-shrink-0 w-full px-4">
+            <div className="bg-gradient-to-r from-[#f5e5d8] to-[#fefaf6] p-8 rounded-lg shadow-md">
+              <p className="text-gray-600 italic text-lg">"{t.quote}"</p>
+              <p className="mt-4 font-semibold text-[#6b3e26]">{t.name}</p>
+              <div className="mt-2 flex justify-center">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    size={20}
+                    className={`${
+                      i < t.rating
+                        ? "text-yellow-500 fill-current"
+                        : "text-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+
+      {/* Carousel Dots */}
+      <div className="flex justify-center mt-4 space-x-2">
+        {testimonials.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setTestimonialSlide(i)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              testimonialSlide === i
+                ? "bg-[#6b3e26] scale-125"
+                : "bg-gray-300 hover:bg-gray-400"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Trusted By Section */}
       <section
