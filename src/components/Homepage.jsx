@@ -7,21 +7,13 @@ import {
   Users,
   Award,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import firstfoundlogo from "../assets/firstfound.png";
 import pic from "../assets/pics_1.jpeg";
 import picw from "../assets/p2.jpeg"
 
-
 function Homepage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState({});
-  const navigate = useNavigate();
-
-  const handleSignIn = () => {
-    navigate("/signin");
-  };
 
   const products = [
     {
@@ -96,7 +88,6 @@ function Homepage() {
     },
   ];
   
-
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % Math.ceil(products.length / 3));
@@ -132,11 +123,6 @@ function Homepage() {
         (prev - 1 + Math.ceil(products.length / 3)) %
         Math.ceil(products.length / 3)
     );
-  };
-
-  const getVisibleProducts = () => {
-    const startIndex = currentSlide * 3;
-    return products.slice(startIndex, startIndex + 3);
   };
 
   return (
@@ -255,134 +241,7 @@ function Homepage() {
         }
       `}</style>
 
-
-      <nav className="bg-[#f5e5d8] shadow-md sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center animate-slideInLeft">
-              <img
-                src={firstfoundlogo}
-                alt="FirstFound Logo"
-                className="h-10 w-10 rounded-full mr-2 shadow"
-              />
-              <span className="text-[#6b3e26] text-xl font-bold">
-                FirstFound
-              </span>
-            </div>
-
-            <div className="hidden md:flex space-x-6 items-center animate-fadeInUp">
-              <a
-                href="#"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
-              >
-                Explore
-              </a>
-              <a
-                href="#"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
-              >
-                Launch Product
-              </a>
-              <a
-                href="#"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
-              >
-                For Investors
-              </a>
-              <a
-                href="#"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
-              >
-                About
-              </a>
-            </div>
-            <div className="hidden md:flex items-center space-x-4 animate-slideInRight">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#d2a679] transition-all duration-300 focus:scale-105"
-              />
-              <button
-                onClick={handleSignIn}
-                className="bg-[#6b3e26] text-white px-4 py-1.5 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                Sign In
-              </button>
-            </div>
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-[#6b3e26] transition-transform duration-300 hover:scale-110"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  {isMenuOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  )}
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {isMenuOpen && (
-          <div className="md:hidden px-4 pb-4 space-y-2 bg-[#f5e5d8] animate-fadeInUp">
-            <a
-              href="#"
-              className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
-            >
-              Explore
-            </a>
-            <a
-              href="#"
-              className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
-            >
-              Launch Product
-            </a>
-            <a
-              href="#"
-              className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
-            >
-              For Investors
-            </a>
-            <a
-              href="#"
-              className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
-            >
-              About
-            </a>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#d2a679] transition-all duration-300"
-            />
-            <button
-              onClick={handleSignIn}
-              className="w-full bg-[#6b3e26] text-white py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300"
-            >
-              Sign In
-            </button>
-          </div>
-        )}
-      </nav>
-
-
+      {/* Hero Section */}
       <section className="gradient-bg py-16 text-center px-4 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-20 h-20 bg-[#6b3e26] rounded-full animate-float"></div>
@@ -414,6 +273,7 @@ function Homepage() {
         </div>
       </section>
 
+      {/* Featured Products Section */}
       <section
         className="py-12 px-4 max-w-7xl mx-auto bg-[#fefaf6]"
         id="products"
@@ -513,7 +373,6 @@ function Homepage() {
             </div>
           </div>
 
-
           <div className="flex justify-center mt-6 space-x-2">
             {Array.from({ length: Math.ceil(products.length / 3) }).map(
               (_, index) => (
@@ -532,6 +391,7 @@ function Homepage() {
         </div>
       </section>
 
+      {/* Launch Section */}
       <section
         className="bg-gradient-to-br from-[#f0f4f8] to-[#e8f2f7] py-12 px-4 text-center"
         id="launch"
@@ -561,6 +421,7 @@ function Homepage() {
         </div>
       </section>
 
+      {/* Invest Section */}
       <section
         className="bg-white py-12 px-4 text-center"
         id="invest"
@@ -593,6 +454,7 @@ function Homepage() {
         </div>
       </section>
 
+      {/* How It Works Section */}
       <section
         className="bg-[#fefaf6] py-12 px-4 max-w-6xl mx-auto"
         id="works"
@@ -632,6 +494,7 @@ function Homepage() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
       <section
         className="py-12 px-4 text-center bg-white"
         id="testimonials"
@@ -665,6 +528,7 @@ function Homepage() {
         </div>
       </section>
 
+      {/* Trusted By Section */}
       <section
         className="py-8 px-4 bg-[#f0f4f8] text-center"
         id="trusted"
@@ -694,7 +558,7 @@ function Homepage() {
         </div>
       </section>
 
-
+      {/* Footer */}
       <footer className="bg-[#f5e5d8] text-[#5a3c2e] py-8 px-4 mt-8">
         <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-4 gap-6">
           {[
@@ -735,16 +599,14 @@ function Homepage() {
           ))}
         </div>
         <div className="flex justify-center mb-4 animate-fadeInUp">
-  <img src={firstfoundlogo} alt="FirstFound Logo" className="h-12 w-12 rounded-full shadow" />
-</div>
-<div className="mt-6 text-center text-sm text-[#8c6b5c] animate-fadeInUp">
-  © 2025 FirstFound. All rights reserved.
-</div>
-
+          <img src={firstfoundlogo} alt="FirstFound Logo" className="h-12 w-12 rounded-full shadow" />
+        </div>
+        <div className="mt-6 text-center text-sm text-[#8c6b5c] animate-fadeInUp">
+          © 2025 FirstFound. All rights reserved.
+        </div>
       </footer>
     </div>
   );
 }
 
 export default Homepage;
-
