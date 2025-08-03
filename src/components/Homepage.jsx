@@ -6,17 +6,48 @@ import {
   TrendingUp,
   Users,
   Award,
+  Play,
 } from "lucide-react";
 import firstfoundlogo from "../assets/firstfound.png";
-import pic from "../assets/pics_1.jpeg";
-import picw from "../assets/p2.jpeg"
+
+// API service for products
+const ProductService = {
+  async getAllProducts() {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/products`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      return [];
+    }
+  },
+
+  async getProductById(id) {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/products/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch product');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching product:', error);
+      return null;
+    }
+  }
+};
 
 function Homepage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState({});
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // inside the Homepage component, near the top:
-const testimonials = [
+  // Testimonials data (keeping this static as it's not in your backend)
+  const testimonials = [
     {
       quote: "Amazing platform connecting innovative startups with early adopters!",
       name: "Priya Sharma",
@@ -35,8 +66,65 @@ const testimonials = [
   ];
   
   const [testimonialSlide, setTestimonialSlide] = useState(0);
-  
-  // Auto-slide every 5 seconds
+
+  // Fetch products from backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const fetchedProducts = await ProductService.getAllProducts();
+        setProducts(fetchedProducts);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load products');
+        console.error('Error loading products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Format currency for Indian Rupees
+  const formatCurrency = (amount) => {
+    if (amount >= 10000000) {
+      return `${(amount / 10000000).toFixed(1)}Cr`;
+    } else if (amount >= 100000) {
+      return `${(amount / 100000).toFixed(1)}L`;
+    } else if (amount >= 1000) {
+      return `${(amount / 1000).toFixed(1)}K`;
+    }
+    return amount.toString();
+  };
+
+  // Get default image if none provided
+  const getProductImage = (product, index = 0) => {
+    if (product.images && product.images.length > 0) {
+      return product.images[index];
+    }
+    // Fallback images based on categories
+    const fallbackImages = {
+      'Tech': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
+      'Sustainability': 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop',
+      'Healthcare': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop',
+      'Education': 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop',
+      'F&B': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop',
+      'Wearable Tech': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop'
+    };
+    
+    const category = product.categories && product.categories[0];
+    return fallbackImages[category] || 'https://images.unsplash.com/photo-1560472355-536de3962603?w=400&h=300&fit=crop';
+  };
+
+  // Handle demo video
+  const handleWatchDemo = (demoVideoUrl) => {
+    if (demoVideoUrl) {
+      window.open(demoVideoUrl, '_blank');
+    }
+  };
+
+  // Auto-slide for testimonials
   useEffect(() => {
     const timer = setInterval(() => {
       setTestimonialSlide((prev) => (prev + 1) % testimonials.length);
@@ -44,88 +132,17 @@ const testimonials = [
     return () => clearInterval(timer);
   }, [testimonials.length]);
   
-
-  const products = [
-    {
-      id: 1,
-      name: "Smart IoT Device",
-      category: "Tech",
-      raised: "12.5L",
-      target: "15L",
-      progress: 85,
-      image:
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-      rating: 4.8,
-      backers: 245,
-    },
-    {
-      id: 2,
-      name: "Eco-Friendly Solution",
-      category: "Sustainability",
-      raised: "8.2L",
-      target: "10L",
-      progress: 82,
-      image:
-        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
-      rating: 4.9,
-      backers: 189,
-    },
-    {
-      id: 3,
-      name: "Health Tech Innovation",
-      category: "Healthcare",
-      raised: "15.8L",
-      target: "20L",
-      progress: 79,
-      image:
-        "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop",
-      rating: 4.7,
-      backers: 312,
-    },
-    {
-      id: 4,
-      name: "EdTech Platform",
-      category: "Education",
-      raised: "6.5L",
-      target: "8L",
-      progress: 81,
-      image:
-        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop",
-      rating: 4.6,
-      backers: 156,
-    },
-    {
-      id: 5,
-      name: "Food Innovation",
-      category: "F&B",
-      raised: "11.2L",
-      target: "14L",
-      progress: 80,
-      image: pic,
-      rating: 4.8,
-      backers: 203,
-    },
-    {
-      id: 6,
-      name: "Smart Watch",
-      category: "Wearable Tech",
-      raised: "9.2L",
-      target: "12L",
-      progress: 77,
-      image: picw,
-      rating: 4.6,
-      backers: 198,
-    },
-    
-  ];
-  
+  // Auto-slide for products
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % Math.ceil(products.length / 3));
-    }, 4000);
-    return () => clearInterval(timer);
+    if (products.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % Math.ceil(products.length / 3));
+      }, 4000);
+      return () => clearInterval(timer);
+    }
   }, [products.length]);
 
+  // Intersection Observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -270,6 +287,20 @@ const testimonials = [
             box-shadow: 0 0 0 0 rgba(107, 62, 38, 0);
           }
         }
+
+        .loading-spinner {
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #6b3e26;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
       `}</style>
 
       {/* Hero Section */}
@@ -319,106 +350,167 @@ const testimonials = [
             <h2 className="text-2xl font-semibold text-[#6b3e26]">
               Featured Products
             </h2>
-            <div className="flex space-x-2">
-              <button
-                onClick={prevSlide}
-                className="p-2 bg-[#6b3e26] text-white rounded-full hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-110"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="p-2 bg-[#6b3e26] text-white rounded-full hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-110"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-            >
-              {Array.from({ length: Math.ceil(products.length / 3) }).map(
-                (_, slideIndex) => (
-                  <div key={slideIndex} className="w-full flex-shrink-0">
-                    <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                      {products
-                        .slice(slideIndex * 3, slideIndex * 3 + 3)
-                        .map((product, index) => (
-                          <div
-                            key={product.id}
-                            className="border rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 bg-white card-hover"
-                            style={{ animationDelay: `${index * 0.1}s` }}
-                          >
-                            <div className="relative overflow-hidden rounded-t-lg">
-                              <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-full h-52 object-cover transition-transform duration-300 hover:scale-110"
-                              />
-                              <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-semibold flex items-center">
-                                <Star
-                                  size={12}
-                                  className="text-yellow-500 mr-1"
-                                />
-                                {product.rating}
-                              </div>
-                            </div>
-                            <div className="p-4">
-                              <h3 className="text-lg font-bold text-[#4a2e19] mb-1">
-                                {product.name}
-                              </h3>
-                              <p className="text-sm text-gray-600 mb-2">
-                                Category: {product.category}
-                              </p>
-                              <div className="flex items-center mb-2 text-xs text-gray-500">
-                                <Users size={12} className="mr-1" />
-                                {product.backers} backers
-                              </div>
-                              <div className="my-2 text-sm text-gray-700">
-                                ₹{product.raised} raised of ₹{product.target}
-                              </div>
-                              <div className="w-full bg-gray-200 rounded-full h-2 mb-3 overflow-hidden">
-                                <div
-                                  className="bg-gradient-to-r from-[#6b3e26] to-[#8b5c3c] h-2 rounded-full transition-all duration-1000 ease-out"
-                                  style={{ width: `${product.progress}%` }}
-                                ></div>
-                              </div>
-                              <div className="flex justify-between items-center">
-                                <span className="text-sm font-semibold text-[#6b3e26]">
-                                  {product.progress}% funded
-                                </span>
-                                <button className="bg-[#6b3e26] text-white px-4 py-1 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105">
-                                  Pre-order Now
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-
-          <div className="flex justify-center mt-6 space-x-2">
-            {Array.from({ length: Math.ceil(products.length / 3) }).map(
-              (_, index) => (
+            {products.length > 3 && (
+              <div className="flex space-x-2">
                 <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentSlide === index
-                      ? "bg-[#6b3e26] scale-125"
-                      : "bg-gray-300 hover:bg-gray-400"
-                  }`}
-                />
-              )
+                  onClick={prevSlide}
+                  className="p-2 bg-[#6b3e26] text-white rounded-full hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-110"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="p-2 bg-[#6b3e26] text-white rounded-full hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-110"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
             )}
           </div>
+
+          {loading && (
+            <div className="flex justify-center items-center py-12">
+              <div className="loading-spinner"></div>
+              <span className="ml-4 text-[#6b3e26]">Loading products...</span>
+            </div>
+          )}
+
+          {error && (
+            <div className="text-center py-12">
+              <p className="text-red-600 mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="bg-[#6b3e26] text-white px-4 py-2 rounded hover:bg-[#8b5c3c] transition-colors"
+              >
+                Retry
+              </button>
+            </div>
+          )}
+
+          {!loading && !error && products.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-600">No products available at the moment.</p>
+            </div>
+          )}
+
+          {!loading && !error && products.length > 0 && (
+            <>
+              <div className="relative overflow-hidden">
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                >
+                  {Array.from({ length: Math.ceil(products.length / 3) }).map(
+                    (_, slideIndex) => (
+                      <div key={slideIndex} className="w-full flex-shrink-0">
+                        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                          {products
+                            .slice(slideIndex * 3, slideIndex * 3 + 3)
+                            .map((product, index) => (
+                              <div
+                                key={product._id}
+                                className="border rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 bg-white card-hover"
+                                style={{ animationDelay: `${index * 0.1}s` }}
+                              >
+                                <div className="relative overflow-hidden rounded-t-lg">
+                                  <img
+                                    src={getProductImage(product)}
+                                    alt={product.name}
+                                    className="w-full h-52 object-cover transition-transform duration-300 hover:scale-110"
+                                    onError={(e) => {
+                                      e.target.src = 'https://images.unsplash.com/photo-1560472355-536de3962603?w=400&h=300&fit=crop';
+                                    }}
+                                  />
+                                  <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-semibold flex items-center">
+                                    <Star
+                                      size={12}
+                                      className="text-yellow-500 mr-1"
+                                    />
+                                    {product.rating.toFixed(1)}
+                                  </div>
+                                  {product.demoVideoUrl && (
+                                    <button
+                                      onClick={() => handleWatchDemo(product.demoVideoUrl)}
+                                      className="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white p-2 rounded-full hover:bg-opacity-90 transition-all"
+                                    >
+                                      <Play size={16} />
+                                    </button>
+                                  )}
+                                </div>
+                                <div className="p-4">
+                                  <h3 className="text-lg font-bold text-[#4a2e19] mb-1">
+                                    {product.name}
+                                  </h3>
+                                  <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                                    {product.description}
+                                  </p>
+                                  {product.categories && product.categories.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 mb-2">
+                                      {product.categories.slice(0, 2).map((category, idx) => (
+                                        <span
+                                          key={idx}
+                                          className="text-xs bg-[#f5e5d8] text-[#6b3e26] px-2 py-1 rounded-full"
+                                        >
+                                          {category}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                  <div className="flex items-center mb-2 text-xs text-gray-500">
+                                    <Users size={12} className="mr-1" />
+                                    {product.backersCount} backers
+                                  </div>
+                                  <div className="my-2 text-sm text-gray-700">
+                                    ₹{formatCurrency(product.amountRaised)} raised
+                                  </div>
+                                  <div className="w-full bg-gray-200 rounded-full h-2 mb-3 overflow-hidden">
+                                    <div
+                                      className="bg-gradient-to-r from-[#6b3e26] to-[#8b5c3c] h-2 rounded-full transition-all duration-1000 ease-out"
+                                      style={{ width: `${Math.min(product.percentageFunded, 100)}%` }}
+                                    ></div>
+                                  </div>
+                                  <div className="flex justify-between items-center">
+                                    <span className="text-sm font-semibold text-[#6b3e26]">
+                                      {product.percentageFunded}% funded
+                                    </span>
+                                    <div className="flex space-x-2">
+                                      <span className="text-lg font-bold text-[#6b3e26]">
+                                        ₹{formatCurrency(product.price)}
+                                      </span>
+                                      <button className="bg-[#6b3e26] text-white px-4 py-1 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105">
+                                        Pre-order Now
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {products.length > 3 && (
+                <div className="flex justify-center mt-6 space-x-2">
+                  {Array.from({ length: Math.ceil(products.length / 3) }).map(
+                    (_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          currentSlide === index
+                            ? "bg-[#6b3e26] scale-125"
+                            : "bg-gray-300 hover:bg-gray-400"
+                        }`}
+                      />
+                    )
+                  )}
+                </div>
+              )}
+            </>
+          )}
         </div>
       </section>
 
@@ -526,69 +618,67 @@ const testimonials = [
       </section>
 
       {/* Testimonials Section */}
-      {/* Testimonials Section */}
-<section
-  className="py-12 px-4 text-center bg-white"
-  id="testimonials"
-  data-animate
->
-  <div
-    className={`transition-all duration-800 ${
-      isVisible.testimonials
-        ? "animate-fadeInUp"
-        : "opacity-0 translate-y-8"
-    }`}
-  >
-    <h2 className="text-2xl font-semibold mb-8 text-[#6b3e26]">
-      What Our Users Say
-    </h2>
-
-    <div className="relative overflow-hidden max-w-xl mx-auto">
-      <div
-        className="flex transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${testimonialSlide * 100}%)` }}
+      <section
+        className="py-12 px-4 text-center bg-white"
+        id="testimonials"
+        data-animate
       >
-        {testimonials.map((t, index) => (
-          <div key={index} className="flex-shrink-0 w-full px-4">
-            <div className="bg-gradient-to-r from-[#f5e5d8] to-[#fefaf6] p-8 rounded-lg shadow-md">
-              <p className="text-gray-600 italic text-lg">"{t.quote}"</p>
-              <p className="mt-4 font-semibold text-[#6b3e26]">{t.name}</p>
-              <div className="mt-2 flex justify-center">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    size={20}
-                    className={`${
-                      i < t.rating
-                        ? "text-yellow-500 fill-current"
-                        : "text-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
+        <div
+          className={`transition-all duration-800 ${
+            isVisible.testimonials
+              ? "animate-fadeInUp"
+              : "opacity-0 translate-y-8"
+          }`}
+        >
+          <h2 className="text-2xl font-semibold mb-8 text-[#6b3e26]">
+            What Our Users Say
+          </h2>
+
+          <div className="relative overflow-hidden max-w-xl mx-auto">
+            <div
+              className="flex transition-transform duration-700 ease-in-out"
+              style={{ transform: `translateX(-${testimonialSlide * 100}%)` }}
+            >
+              {testimonials.map((t, index) => (
+                <div key={index} className="flex-shrink-0 w-full px-4">
+                  <div className="bg-gradient-to-r from-[#f5e5d8] to-[#fefaf6] p-8 rounded-lg shadow-md">
+                    <p className="text-gray-600 italic text-lg">"{t.quote}"</p>
+                    <p className="mt-4 font-semibold text-[#6b3e26]">{t.name}</p>
+                    <div className="mt-2 flex justify-center">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          size={20}
+                          className={`${
+                            i < t.rating
+                              ? "text-yellow-500 fill-current"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Carousel Dots */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setTestimonialSlide(i)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    testimonialSlide === i
+                      ? "bg-[#6b3e26] scale-125"
+                      : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+                />
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-
-      {/* Carousel Dots */}
-      <div className="flex justify-center mt-4 space-x-2">
-        {testimonials.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setTestimonialSlide(i)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              testimonialSlide === i
-                ? "bg-[#6b3e26] scale-125"
-                : "bg-gray-300 hover:bg-gray-400"
-            }`}
-          />
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
-
+        </div>
+      </section>
 
       {/* Trusted By Section */}
       <section
