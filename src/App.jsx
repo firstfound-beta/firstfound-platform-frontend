@@ -8,7 +8,7 @@ import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import StartupForm from './components/StartupForm';
 import About from './components/About';
-
+import ForInvestor from './components/ForInvestor';
 
 // Component to conditionally show navbar
 function AppContent() {
@@ -28,6 +28,7 @@ function AppContent() {
         <Route path="/register" element={<Register />} />
         <Route path="/launch" element={<StartupForm />} />
         <Route path="/about" element={<About />} />
+        <Route path="/forinvestor" element={<ForInvestor />} /> 
 
         
         {/* ✅ Protected route */}

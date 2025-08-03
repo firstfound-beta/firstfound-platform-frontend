@@ -144,12 +144,13 @@ function Navbar() {
               >
                 Launch Product
               </a>
-              <a
-                href="#"
+              <Link
+                to="/forinvestor"
                 className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
               >
                 For Investors
-              </a>
+              </Link>
+
               <Link
                 to="/about"
                 className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
@@ -261,10 +262,11 @@ function Navbar() {
             </a>
             <a
               href="#"
-              className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
+              className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
             >
               For Investors
             </a>
+
             <a
               href="#"
               className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"

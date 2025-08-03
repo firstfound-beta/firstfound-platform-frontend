@@ -24,7 +24,7 @@ function StartupForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/startup/apply", formData); // Adjust base URL if needed
+      const res = await axios.post( `${import.meta.env.VITE_BACKEND_URL}/startup/apply`, formData); // Adjust base URL if needed
       setMessage(res.data.message);
       setFormData({
         startupName: "",

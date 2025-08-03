@@ -11,7 +11,7 @@ function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(import.meta.env.VITE_BACKEND_URL)
     try {
       const res = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
