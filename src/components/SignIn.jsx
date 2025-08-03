@@ -29,10 +29,10 @@ function SignIn() {
 
       if (res.ok) {
         alert("✅ Signed in successfully!");
-        localStorage.setItem("token", data.token); 
-        localStorage.setItem("user", JSON.stringify(data.user)); 
-        login(data.user);
-        navigate("/"); 
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        login(data.token, data.user);  // use the correct variables here
+        navigate("/");
       } else {
         alert(`❌ Sign-in failed: ${data.message || "Invalid credentials"}`);
       }
