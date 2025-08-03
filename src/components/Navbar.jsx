@@ -254,12 +254,12 @@ function Navbar() {
             >
               Explore
             </a>
-            <a
-              href="/launch"
-              className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
-            >
-              Launch Product
-            </a>
+             <a
+                href="/launch"
+                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
+              >
+                Launch Product
+              </a>
             <a
               href="#"
               className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
