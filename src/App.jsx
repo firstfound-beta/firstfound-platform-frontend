@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
+
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
 import SignIn from './components/SignIn';
@@ -9,14 +15,11 @@ import PrivateRoute from './components/PrivateRoute';
 import StartupForm from './components/StartupForm';
 import About from './components/About';
 import ForInvestor from './components/ForInvestor';
+import { AuthProvider } from './context/AuthContext';
 
-// Component to conditionally show navbar
 function AppContent() {
   const location = useLocation();
-  
-  // Define routes where navbar should be hidden (if any)
-  const hideNavbarRoutes = []; // Add routes here if you want to hide navbar on specific pages
-  
+  const hideNavbarRoutes = []; // Add paths like "/signin" if needed
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
 
   return (
@@ -28,10 +31,7 @@ function AppContent() {
         <Route path="/register" element={<Register />} />
         <Route path="/launch" element={<StartupForm />} />
         <Route path="/about" element={<About />} />
-        <Route path="/forinvestor" element={<ForInvestor />} /> 
-
-        
-        {/* ✅ Protected route */}
+        <Route path="/forinvestor" element={<ForInvestor />} />
         <Route
           path="/dashboard"
           element={
@@ -41,23 +41,17 @@ function AppContent() {
           }
         />
       </Routes>
-      {/* <Route path="/launch" element={<StartupForm />} /> */}
     </div>
   );
 }
 
 function App() {
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      console.log('🔐 User is logged in');
-    }
-  }, []);
-
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </AuthProvider>
   );
 }
 

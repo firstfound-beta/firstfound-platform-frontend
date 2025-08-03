@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/firstfound.png";
-
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 function SignIn() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,9 +29,10 @@ function SignIn() {
 
       if (res.ok) {
         alert("✅ Signed in successfully!");
-        localStorage.setItem("token", data.token); // 🟡 Save token
-        localStorage.setItem("user", JSON.stringify(data.user)); // (optional)
-        navigate("/"); // ✅ Redirect after login
+        localStorage.setItem("token", data.token); 
+        localStorage.setItem("user", JSON.stringify(data.user)); 
+        login(data.user);
+        navigate("/"); 
       } else {
         alert(`❌ Sign-in failed: ${data.message || "Invalid credentials"}`);
       }

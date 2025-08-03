@@ -1,60 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 import firstfoundlogo from "../assets/firstfound.png";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+
+  const { isLoggedIn, user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAuthStatus = () => {
-      const token = localStorage.getItem("token");
-      const userData = localStorage.getItem("user");
-
-      if (token) {
-        setIsLoggedIn(true);
-        if (userData) {
-          try {
-            setUser(JSON.parse(userData));
-          } catch (error) {
-            console.error("Error parsing user data:", error);
-            setUser({ name: "User" });
-          }
-        } else {
-          setUser({ name: "User" });
-        }
-      } else {
-        setIsLoggedIn(false);
-        setUser(null);
-      }
-    };
-
-    checkAuthStatus();
-
-    window.addEventListener("storage", checkAuthStatus);
-    return () => {
-      window.removeEventListener("storage", checkAuthStatus);
-    };
-  }, []);
-
   const handleSignIn = () => navigate("/signin");
+
   const handleSignOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    setUser(null);
+    logout();
     setIsUserMenuOpen(false);
     navigate("/");
   };
+
   const handleDashboard = () => {
     setIsUserMenuOpen(false);
     navigate("/dashboard");
   };
+
   const handleLogoClick = () => navigate("/");
 
   useEffect(() => {
@@ -71,7 +41,6 @@ function Navbar() {
 
   return (
     <>
-      {/* ✅ Fixed: Removed `jsx` attribute */}
       <style>{`
         @keyframes fadeInUp {
           from {
@@ -150,7 +119,6 @@ function Navbar() {
               >
                 For Investors
               </Link>
-
               <Link
                 to="/about"
                 className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
@@ -254,21 +222,20 @@ function Navbar() {
             >
               Explore
             </a>
-             <a
-                href="/launch"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
-              >
-                Launch Product
-              </a>
             <a
-              href="#"
+              href="/launch"
+              className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
+            >
+              Launch Product
+            </a>
+            <a
+              href="/forinvestor"
               className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
             >
               For Investors
             </a>
-
             <a
-              href="#"
+              href="/about"
               className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
             >
               About
