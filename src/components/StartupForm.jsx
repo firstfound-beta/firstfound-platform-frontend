@@ -11,9 +11,7 @@ function StartupForm() {
     website: "",
     pitchDeckUrl: "",
   });
-
   const [message, setMessage] = useState("");
-
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
