@@ -11,7 +11,7 @@ function Register() {
     email: "",
     password: "",
     country: "India",
-    role: "user", // Single role selected
+    role: "user", 
   });
 
   const handleChange = (e) => {
