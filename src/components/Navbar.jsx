@@ -114,12 +114,6 @@ function Navbar() {
                 Launch Product
               </a>
               <Link
-                to="/forinvestor"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
-              >
-                For Investors
-              </Link>
-              <Link
                 to="/about"
                 className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
               >
@@ -218,24 +212,21 @@ function Navbar() {
           <div className="md:hidden px-4 pb-4 space-y-2 bg-[#f5e5d8] animate-fadeInUp">
             <a
               href="#"
+              onClick={() => setIsMenuOpen(false)}
               className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
             >
               Explore
             </a>
             <a
               href="/launch"
+              onClick={() => setIsMenuOpen(false)}
               className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
             >
               Launch Product
             </a>
             <a
-              href="/forinvestor"
-              className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
-            >
-              For Investors
-            </a>
-            <a
               href="/about"
+              onClick={() => setIsMenuOpen(false)}
               className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
             >
               About
@@ -253,14 +244,20 @@ function Navbar() {
                   <span>{user?.name || "User"}</span>
                 </div>
                 <button
-                  onClick={handleDashboard}
+                  onClick={() => {
+                    handleDashboard();
+                    setIsMenuOpen(false);
+                  }}
                   className="flex items-center space-x-2 w-full text-left text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
                 >
                   <LayoutDashboard size={16} />
                   <span>Dashboard</span>
                 </button>
                 <button
-                  onClick={handleSignOut}
+                  onClick={() => {
+                    handleSignOut();
+                    setIsMenuOpen(false);
+                  }}
                   className="flex items-center space-x-2 w-full text-left text-red-600 hover:text-red-700 transition-colors duration-300"
                 >
                   <LogOut size={16} />
@@ -269,7 +266,10 @@ function Navbar() {
               </div>
             ) : (
               <button
-                onClick={handleSignIn}
+                onClick={() => {
+                  handleSignIn();
+                  setIsMenuOpen(false);
+                }}
                 className="w-full bg-[#6b3e26] text-white py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300"
               >
                 Sign In
