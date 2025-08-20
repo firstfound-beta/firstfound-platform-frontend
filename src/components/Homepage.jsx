@@ -9,34 +9,24 @@ import {
   Play,
 } from "lucide-react";
 import firstfoundlogo from "../assets/firstfound.png";
-
+import { Link, useNavigate } from "react-router-dom";
+import { Products } from "./products";
 // API service for products
 const ProductService = {
   async getAllProducts() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/products`);
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/products`
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch products');
+        throw new Error("Failed to fetch products");
       }
       return await response.json();
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
       return [];
     }
   },
-
-  async getProductById(id) {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/products/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch product');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching product:', error);
-      return null;
-    }
-  }
 };
 
 function Homepage() {
@@ -45,16 +35,19 @@ function Homepage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Testimonials data (keeping this static as it's not in your backend)
   const testimonials = [
     {
-      quote: "Amazing platform connecting innovative startups with early adopters!",
+      quote:
+        "Amazing platform connecting innovative startups with early adopters!",
       name: "Priya Sharma",
       rating: 5,
     },
     {
-      quote: "Helped me discover and support some really cool products early on.",
+      quote:
+        "Helped me discover and support some really cool products early on.",
       name: "Rahul Verma",
       rating: 4,
     },
@@ -64,7 +57,7 @@ function Homepage() {
       rating: 5,
     },
   ];
-  
+
   const [testimonialSlide, setTestimonialSlide] = useState(0);
 
   // Fetch products from backend
@@ -76,8 +69,8 @@ function Homepage() {
         setProducts(fetchedProducts);
         setError(null);
       } catch (err) {
-        setError('Failed to load products');
-        console.error('Error loading products:', err);
+        setError("Failed to load products");
+        console.error("Error loading products:", err);
       } finally {
         setLoading(false);
       }
@@ -86,43 +79,9 @@ function Homepage() {
     fetchProducts();
   }, []);
 
-  // Format currency for Indian Rupees
-  const formatCurrency = (amount) => {
-    if (amount >= 10000000) {
-      return `${(amount / 10000000).toFixed(1)}Cr`;
-    } else if (amount >= 100000) {
-      return `${(amount / 100000).toFixed(1)}L`;
-    } else if (amount >= 1000) {
-      return `${(amount / 1000).toFixed(1)}K`;
-    }
-    return amount.toString();
-  };
 
   // Get default image if none provided
-  const getProductImage = (product, index = 0) => {
-    if (product.images && product.images.length > 0) {
-      return product.images[index];
-    }
-    // Fallback images based on categories
-    const fallbackImages = {
-      'Tech': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
-      'Sustainability': 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop',
-      'Healthcare': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop',
-      'Education': 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop',
-      'F&B': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop',
-      'Wearable Tech': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop'
-    };
-    
-    const category = product.categories && product.categories[0];
-    return fallbackImages[category] || 'https://images.unsplash.com/photo-1560472355-536de3962603?w=400&h=300&fit=crop';
-  };
-
-  // Handle demo video
-  const handleWatchDemo = (demoVideoUrl) => {
-    if (demoVideoUrl) {
-      window.open(demoVideoUrl, '_blank');
-    }
-  };
+  
 
   // Auto-slide for testimonials
   useEffect(() => {
@@ -131,7 +90,7 @@ function Homepage() {
     }, 5000);
     return () => clearInterval(timer);
   }, [testimonials.length]);
-  
+
   // Auto-slide for products
   useEffect(() => {
     if (products.length > 0) {
@@ -265,6 +224,7 @@ function Homepage() {
 
         .card-hover {
           transition: all 0.3s ease;
+          cursor: pointer;
         }
 
         .card-hover:hover {
@@ -298,13 +258,18 @@ function Homepage() {
         }
 
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
 
       {/* Hero Section */}
       <section className="gradient-bg py-16 text-center px-4 relative overflow-hidden">
+        {/* Animated background bubbles */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-20 h-20 bg-[#6b3e26] rounded-full animate-float"></div>
           <div
@@ -316,22 +281,26 @@ function Homepage() {
             style={{ animationDelay: "2s" }}
           ></div>
         </div>
+
+        {/* Foreground content */}
         <div className="relative z-10">
           <h1 className="text-4xl font-bold mb-4 text-[#5c3a21] animate-fadeInUp">
-            Discover India's next big thing before the rest of the world does
+            Early Stage Startups
           </h1>
           <p
             className="text-lg mb-6 text-gray-700 animate-fadeInUp"
             style={{ animationDelay: "0.2s" }}
           >
-            Explore and pre-order innovative products from India's top startups.
+            Discover the next big ideas from India's most promising early-stage
+            startups. Support their journey by pre-ordering today.
           </p>
-          <button
-            className="bg-[#6b3e26] text-white px-6 py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 pulse-button animate-fadeInUp"
+          <Link
+            to="/explore"
+            className="inline-block bg-[#6b3e26] text-white px-6 py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 pulse-button animate-fadeInUp"
             style={{ animationDelay: "0.4s" }}
           >
-            Explore Products
-          </button>
+            Discover Startups
+          </Link>
         </div>
       </section>
 
@@ -378,8 +347,8 @@ function Homepage() {
           {error && (
             <div className="text-center py-12">
               <p className="text-red-600 mb-4">{error}</p>
-              <button 
-                onClick={() => window.location.reload()} 
+              <button
+                onClick={() => window.location.reload()}
                 className="bg-[#6b3e26] text-white px-4 py-2 rounded hover:bg-[#8b5c3c] transition-colors"
               >
                 Retry
@@ -389,7 +358,9 @@ function Homepage() {
 
           {!loading && !error && products.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-600">No products available at the moment.</p>
+              <p className="text-gray-600">
+                No products available at the moment.
+              </p>
             </div>
           )}
 
@@ -404,87 +375,10 @@ function Homepage() {
                     (_, slideIndex) => (
                       <div key={slideIndex} className="w-full flex-shrink-0">
                         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                          {products
-                            .slice(slideIndex * 3, slideIndex * 3 + 3)
-                            .map((product, index) => (
-                              <div
-                                key={product._id}
-                                className="border rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 bg-white card-hover"
-                                style={{ animationDelay: `${index * 0.1}s` }}
-                              >
-                                <div className="relative overflow-hidden rounded-t-lg">
-                                  <img
-                                    src={getProductImage(product)}
-                                    alt={product.name}
-                                    className="w-full h-52 object-cover transition-transform duration-300 hover:scale-110"
-                                    onError={(e) => {
-                                      e.target.src = 'https://images.unsplash.com/photo-1560472355-536de3962603?w=400&h=300&fit=crop';
-                                    }}
-                                  />
-                                  <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-semibold flex items-center">
-                                    <Star
-                                      size={12}
-                                      className="text-yellow-500 mr-1"
-                                    />
-                                    {product.rating.toFixed(1)}
-                                  </div>
-                                  {product.demoVideoUrl && (
-                                    <button
-                                      onClick={() => handleWatchDemo(product.demoVideoUrl)}
-                                      className="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white p-2 rounded-full hover:bg-opacity-90 transition-all"
-                                    >
-                                      <Play size={16} />
-                                    </button>
-                                  )}
-                                </div>
-                                <div className="p-4">
-                                  <h3 className="text-lg font-bold text-[#4a2e19] mb-1">
-                                    {product.name}
-                                  </h3>
-                                  <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                                    {product.description}
-                                  </p>
-                                  {product.categories && product.categories.length > 0 && (
-                                    <div className="flex flex-wrap gap-1 mb-2">
-                                      {product.categories.slice(0, 2).map((category, idx) => (
-                                        <span
-                                          key={idx}
-                                          className="text-xs bg-[#f5e5d8] text-[#6b3e26] px-2 py-1 rounded-full"
-                                        >
-                                          {category}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  )}
-                                  <div className="flex items-center mb-2 text-xs text-gray-500">
-                                    <Users size={12} className="mr-1" />
-                                    {product.backersCount} backers
-                                  </div>
-                                  <div className="my-2 text-sm text-gray-700">
-                                    ₹{formatCurrency(product.amountRaised)} raised
-                                  </div>
-                                  <div className="w-full bg-gray-200 rounded-full h-2 mb-3 overflow-hidden">
-                                    <div
-                                      className="bg-gradient-to-r from-[#6b3e26] to-[#8b5c3c] h-2 rounded-full transition-all duration-1000 ease-out"
-                                      style={{ width: `${Math.min(product.percentageFunded, 100)}%` }}
-                                    ></div>
-                                  </div>
-                                  <div className="flex justify-between items-center">
-                                    <span className="text-sm font-semibold text-[#6b3e26]">
-                                      {product.percentageFunded}% funded
-                                    </span>
-                                    <div className="flex space-x-2">
-                                      <span className="text-lg font-bold text-[#6b3e26]">
-                                        ₹{formatCurrency(product.price)}
-                                      </span>
-                                      <button className="bg-[#6b3e26] text-white px-4 py-1 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105">
-                                        Pre-order Now
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
+                          <Products
+                            products={products}
+                            slideIndex={slideIndex}
+                          />
                         </div>
                       </div>
                     )
@@ -643,7 +537,9 @@ function Homepage() {
                 <div key={index} className="flex-shrink-0 w-full px-4">
                   <div className="bg-gradient-to-r from-[#f5e5d8] to-[#fefaf6] p-8 rounded-lg shadow-md">
                     <p className="text-gray-600 italic text-lg">"{t.quote}"</p>
-                    <p className="mt-4 font-semibold text-[#6b3e26]">{t.name}</p>
+                    <p className="mt-4 font-semibold text-[#6b3e26]">
+                      {t.name}
+                    </p>
                     <div className="mt-2 flex justify-center">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
@@ -751,7 +647,11 @@ function Homepage() {
           ))}
         </div>
         <div className="flex justify-center mb-4 animate-fadeInUp">
-          <img src={firstfoundlogo} alt="FirstFound Logo" className="h-12 w-12 rounded-full shadow" />
+          <img
+            src={firstfoundlogo}
+            alt="FirstFound Logo"
+            className="h-12 w-12 rounded-full shadow"
+          />
         </div>
         <div className="mt-6 text-center text-sm text-[#8c6b5c] animate-fadeInUp">
           © 2025 FirstFound. All rights reserved.

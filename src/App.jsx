@@ -15,6 +15,7 @@ import PrivateRoute from './components/PrivateRoute';
 import StartupForm from './components/StartupForm';
 import About from './components/About';
 import ForInvestor from './components/ForInvestor';
+import ProductDetailPage from './components/ProductDetailPage'; // Add this import
 import { AuthProvider } from './context/AuthContext';
 
 function AppContent() {
@@ -32,6 +33,10 @@ function AppContent() {
         <Route path="/launch" element={<StartupForm />} />
         <Route path="/about" element={<About />} />
         <Route path="/forinvestor" element={<ForInvestor />} />
+        {/* Add the product detail route */}
+        {/* <Route path="/product/:productId" element={<ProductDetailPage />} /> */}
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+
         <Route
           path="/dashboard"
           element={
