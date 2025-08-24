@@ -43,49 +43,26 @@ function Navbar() {
     <>
       <style>{`
         @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         @keyframes slideInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+          from { opacity: 0; transform: translateX(-30px); }
+          to { opacity: 1; transform: translateX(0); }
         }
         @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+          from { opacity: 0; transform: translateX(30px); }
+          to { opacity: 1; transform: translateX(0); }
         }
-        .animate-fadeInUp {
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-        .animate-slideInLeft {
-          animation: slideInLeft 0.8s ease-out forwards;
-        }
-        .animate-slideInRight {
-          animation: slideInRight 0.8s ease-out forwards;
-        }
+        .animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-slideInLeft { animation: slideInLeft 0.8s ease-out forwards; }
+        .animate-slideInRight { animation: slideInRight 0.8s ease-out forwards; }
       `}</style>
 
       <nav className="bg-[#f5e5d8] shadow-md sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
+            {/* Logo */}
             <div
               className="flex items-center animate-slideInLeft cursor-pointer"
               onClick={handleLogoClick}
@@ -96,43 +73,39 @@ function Navbar() {
                 className="h-10 w-10 rounded-full mr-2 shadow"
               />
               <span className="text-[#6b3e26] text-xl font-bold">
-                FirstFound
+                Originn
               </span>
             </div>
 
-            <div className="hidden md:flex space-x-6 items-center animate-fadeInUp">
+            {/* Desktop Links */}
+            <div className="hidden md:flex space-x-8 items-center animate-fadeInUp">
               <a
-                href="#"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
+                href="/startup"
+                className="text-[#6b3e26] font-medium hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
               >
                 Explore
               </a>
               <a
                 href="/launch"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
+                className="text-[#6b3e26] font-medium hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
               >
                 Launch Product
               </a>
               <Link
                 to="/about"
-                className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
+                className="text-[#6b3e26] font-medium hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
               >
                 About
               </Link>
             </div>
 
+            {/* Desktop User Actions */}
             <div className="hidden md:flex items-center space-x-4 animate-slideInRight">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#d2a679] transition-all duration-300 focus:scale-105"
-              />
-
               {isLoggedIn ? (
                 <div className="relative user-menu-container">
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center space-x-2 bg-[#6b3e26] text-white px-3 py-1.5 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105"
+                    className="flex items-center space-x-2 bg-[#6b3e26] text-white px-3 py-1.5 rounded-lg shadow hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105"
                   >
                     <User size={16} />
                     <span className="text-sm">{user?.name || "User"}</span>
@@ -167,7 +140,7 @@ function Navbar() {
               ) : (
                 <button
                   onClick={handleSignIn}
-                  className="bg-[#6b3e26] text-white px-4 py-1.5 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  className="bg-[#6b3e26] text-white px-4 py-1.5 rounded-lg shadow hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 >
                   Sign In
                 </button>
@@ -209,36 +182,31 @@ function Navbar() {
 
         {/* Mobile Dropdown */}
         {isMenuOpen && (
-          <div className="md:hidden px-4 pb-4 space-y-2 bg-[#f5e5d8] animate-fadeInUp">
+          <div className="md:hidden px-4 pb-4 space-y-3 bg-[#f5e5d8] animate-fadeInUp">
             <a
               href="#"
               onClick={() => setIsMenuOpen(false)}
-              className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
+              className="block text-[#6b3e26] font-medium hover:text-[#a0522d] transition-colors duration-300"
             >
               Explore
             </a>
             <a
               href="/launch"
               onClick={() => setIsMenuOpen(false)}
-              className="text-[#6b3e26] hover:text-[#a0522d] transition-all duration-300 hover:scale-105"
+              className="block text-[#6b3e26] font-medium hover:text-[#a0522d] transition-colors duration-300"
             >
               Launch Product
             </a>
             <a
               href="/about"
               onClick={() => setIsMenuOpen(false)}
-              className="block text-[#6b3e26] hover:text-[#a0522d] transition-colors duration-300"
+              className="block text-[#6b3e26] font-medium hover:text-[#a0522d] transition-colors duration-300"
             >
               About
             </a>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#d2a679] transition-all duration-300"
-            />
 
             {isLoggedIn ? (
-              <div className="space-y-2 pt-2 border-t border-[#d2a679]">
+              <div className="space-y-2 pt-3 border-t border-[#d2a679]">
                 <div className="flex items-center space-x-2 text-[#6b3e26] text-sm font-medium">
                   <User size={16} />
                   <span>{user?.name || "User"}</span>
@@ -270,7 +238,7 @@ function Navbar() {
                   handleSignIn();
                   setIsMenuOpen(false);
                 }}
-                className="w-full bg-[#6b3e26] text-white py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300"
+                className="w-full bg-[#6b3e26] text-white py-2 rounded-lg shadow hover:bg-[#8b5c3c] transition-all duration-300"
               >
                 Sign In
               </button>

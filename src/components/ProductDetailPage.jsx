@@ -49,20 +49,27 @@ const ProductDetailPage = () => {
   const formatCurrency = (value) =>
     new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(value);
 
-  const getProductImage = (product) => product?.image || "/placeholder.png";
+  const getProductImage = (product) => product?.images?.[0] || "/placeholder.png";
   const handlePreOrder = () => setPreorderMode(true);
   const handleWatchDemo = () => console.log("Watch demo");
   const handleShare = () => console.log("Share");
 
-  // Dummy milestones
-  const milestones = [
-    { id: 1, title: "Prototype", status: "completed" },
-    { id: 2, title: "Beta Launch", status: "in-progress" },
-  ];
+  // ✅ Milestones from product JSON
+  const milestones = product?.milestones || [];
 
-  const getMilestoneStatus = (milestone) => milestone.status;
-  const getStatusColor = (status) =>
-    status === "completed" ? "green" : status === "in-progress" ? "yellow" : "gray";
+  const getMilestoneStatus = (index) => {
+    if (index < currentMilestoneIndex) return "completed";
+    if (index === currentMilestoneIndex) return "in-progress";
+    return "upcoming";
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "completed": return "green";
+      case "in-progress": return "yellow";
+      default: return "gray";
+    }
+  };
 
   // ✅ Conditional renders
   if (loading) {

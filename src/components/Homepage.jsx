@@ -79,11 +79,6 @@ function Homepage() {
     fetchProducts();
   }, []);
 
-
-  // Get default image if none provided
-  
-
-  // Auto-slide for testimonials
   useEffect(() => {
     const timer = setInterval(() => {
       setTestimonialSlide((prev) => (prev + 1) % testimonials.length);
@@ -295,7 +290,7 @@ function Homepage() {
             startups. Support their journey by pre-ordering today.
           </p>
           <Link
-            to="/explore"
+            to="/startup"
             className="inline-block bg-[#6b3e26] text-white px-6 py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 pulse-button animate-fadeInUp"
             style={{ animationDelay: "0.4s" }}
           >
@@ -409,6 +404,7 @@ function Homepage() {
       </section>
 
       {/* Launch Section */}
+      {/* Launch Section */}
       <section
         className="bg-gradient-to-br from-[#f0f4f8] to-[#e8f2f7] py-12 px-4 text-center"
         id="launch"
@@ -425,28 +421,29 @@ function Homepage() {
               className="mx-auto mb-4 text-[#6b3e26] animate-float"
             />
             <h2 className="text-2xl font-semibold mb-4 text-[#6b3e26]">
-              Turn your innovative idea into reality
+              Launch Your Product
             </h2>
             <p className="mb-6 text-gray-700">
-              Validate your idea, raise working capital, build community,
-              attract investors.
+              Step 1: Fill out your product launch form. Our Origin team will
+              review and verify your submission. Once verified, your startup and
+              product will be featured on the main homepage.
             </p>
             <button className="bg-[#6b3e26] text-white px-6 py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 hover:shadow-lg pulse-button">
-              Launch Your Campaign
+              Submit Launch Form
             </button>
           </div>
         </div>
       </section>
 
-      {/* Invest Section */}
+      {/* Campaign Section */}
       <section
         className="bg-white py-12 px-4 text-center"
-        id="invest"
+        id="campaign"
         data-animate
       >
         <div
           className={`transition-all duration-800 ${
-            isVisible.invest
+            isVisible.campaign
               ? "animate-slideInRight"
               : "opacity-0 translate-x-8"
           }`}
@@ -455,38 +452,44 @@ function Homepage() {
             <Award
               size={48}
               className="mx-auto mb-4 text-[#6b3e26] animate-float"
-              style={{ animationDelay: "1s" }}
             />
             <h2 className="text-2xl font-semibold mb-4 text-[#6b3e26]">
-              Invest in Startups
+              Launch Campaign & Raise Funding
             </h2>
             <p className="mb-6 text-gray-700">
-              Get early access to curated deal flow and traction-backed
-              startups.
+              Step 2: Once verified, you can start your campaign to raise
+              funding. Backers can pre-order your product. All funds are held in
+              an escrow account and released milestone by milestone.
             </p>
             <button className="bg-[#6b3e26] text-white px-6 py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 hover:shadow-lg">
-              Join Investor Network
+              Launch Your Campaign
             </button>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
+      {/* Milestone / Escrow Section */}
       <section
         className="bg-[#fefaf6] py-12 px-4 max-w-6xl mx-auto"
-        id="works"
+        id="milestones"
         data-animate
       >
         <div
           className={`transition-all duration-800 ${
-            isVisible.works ? "animate-fadeInUp" : "opacity-0 translate-y-8"
+            isVisible.milestones
+              ? "animate-fadeInUp"
+              : "opacity-0 translate-y-8"
           }`}
         >
           <h2 className="text-2xl font-semibold text-center mb-8 text-[#6b3e26]">
-            How It Works
+            Milestones & Escrow Funding
           </h2>
           <div className="flex flex-col sm:flex-row gap-6 justify-center text-center">
-            {["Discover", "Pre-order", "Track & Support"].map((step, index) => (
+            {[
+              "Raw Material Funding",
+              "Manufacturing Funding",
+              "Delivery / Launch Funding",
+            ].map((step, index) => (
               <div
                 key={index}
                 className="flex-1 p-6 bg-white shadow-lg rounded-lg card-hover animate-scaleIn"
@@ -499,14 +502,46 @@ function Homepage() {
                   {step}
                 </h3>
                 <p className="text-gray-600">
-                  {step === "Discover"
-                    ? "Browse innovative products by Indian startups."
-                    : step === "Pre-order"
-                    ? "Support startups by pre-ordering their products."
-                    : "Follow progress and get updates from founders."}
+                  {step === "Raw Material Funding"
+                    ? "Backers' pre-order funds are released from escrow to purchase raw materials."
+                    : step === "Manufacturing Funding"
+                    ? "After raw materials are ready, next portion of funds released for manufacturing."
+                    : "Final funds released for product delivery once manufacturing is complete."}
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Backer Pre-Order Section */}
+      <section
+        className="bg-gradient-to-br from-[#f0f4f8] to-[#e8f2f7] py-12 px-4 text-center"
+        id="preorder"
+        data-animate
+      >
+        <div
+          className={`transition-all duration-800 ${
+            isVisible.preorder
+              ? "animate-slideInLeft"
+              : "opacity-0 translate-x-8"
+          }`}
+        >
+          <div className="max-w-4xl mx-auto">
+            {/* <ShoppingCart
+              size={48}
+              className="mx-auto mb-4 text-[#6b3e26] animate-float"
+            /> */}
+            <h2 className="text-2xl font-semibold mb-4 text-[#6b3e26]">
+              Backer Pre-Orders
+            </h2>
+            <p className="mb-6 text-gray-700">
+              Step 3: Users (backers) can pre-order your product. Funds are
+              safely held in escrow and released milestone by milestone.
+            </p>
+            <button className="bg-[#6b3e26] text-white px-6 py-2 rounded hover:bg-[#8b5c3c] transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              Pre-Order Now
+            </button>
           </div>
         </div>
       </section>
@@ -575,88 +610,6 @@ function Homepage() {
           </div>
         </div>
       </section>
-
-      {/* Trusted By Section */}
-      <section
-        className="py-8 px-4 bg-[#f0f4f8] text-center"
-        id="trusted"
-        data-animate
-      >
-        <div
-          className={`transition-all duration-800 ${
-            isVisible.trusted ? "animate-fadeInUp" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <h3 className="text-lg font-semibold mb-4 text-[#6b3e26]">
-            Trusted By
-          </h3>
-          <div className="flex flex-wrap justify-center gap-6">
-            {["Sequoia", "Accel", "100X.VC"].map((logo, index) => (
-              <div
-                key={logo}
-                className="w-32 h-12 bg-white shadow-lg rounded flex items-center justify-center card-hover animate-scaleIn"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <span className="text-sm text-gray-500 font-semibold">
-                  {logo}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-[#f5e5d8] text-[#5a3c2e] py-8 px-4 mt-8">
-        <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            {
-              title: "Explore",
-              items: ["Products", "Categories", "Success Stories"],
-            },
-            {
-              title: "For Startups",
-              items: ["Launch Project", "How It Works"],
-            },
-            {
-              title: "For Investors",
-              items: ["Join Network", "Success Metrics"],
-            },
-            {
-              title: "Company",
-              items: ["About", "Blog", "Contact", "Support"],
-            },
-          ].map(({ title, items }, index) => (
-            <div
-              key={title}
-              className="animate-fadeInUp"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <h4 className="font-semibold mb-2">{title}</h4>
-              <ul>
-                {items.map((item) => (
-                  <li
-                    key={item}
-                    className="text-sm hover:text-[#6b3e26] transition-colors duration-300 cursor-pointer"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-center mb-4 animate-fadeInUp">
-          <img
-            src={firstfoundlogo}
-            alt="FirstFound Logo"
-            className="h-12 w-12 rounded-full shadow"
-          />
-        </div>
-        <div className="mt-6 text-center text-sm text-[#8c6b5c] animate-fadeInUp">
-          © 2025 FirstFound. All rights reserved.
-        </div>
-      </footer>
     </div>
   );
 }

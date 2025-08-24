@@ -8,14 +8,16 @@ import {
   Clock, 
   Timer, 
   DollarSign,
-  // Add more icons that might be used as milestone icons
   Package,
   Settings,
   Truck,
   CheckSquare,
   Zap,
   Cpu,
-  Box
+  Box,
+  Globe,
+  User,
+  Calendar
 } from 'lucide-react';
 
 const ProductTabs = ({ 
@@ -120,6 +122,39 @@ const ProductTabs = ({
                     <div className="font-semibold text-gray-800">{formatCurrency(product.price)}</div>
                     <div className="text-gray-500">Pre-order</div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* About Section */}
+            <div>
+              <h3 className="text-xl font-semibold mb-4">About</h3>
+              <div className="bg-gray-50 p-6 rounded-lg space-y-4">
+                <div className="flex items-center gap-3">
+                  <User size={20} className="text-[#6b3e26]" />
+                  <span className="font-medium text-gray-800">Founder: </span>
+                  <span className="text-gray-600">{product.founderName || "N/A"}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Package size={20} className="text-[#6b3e26]" />
+                  <span className="font-medium text-gray-800">Product: </span>
+                  <span className="text-gray-600">{product.name || "N/A"}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Globe size={20} className="text-[#6b3e26]" />
+                  <span className="font-medium text-gray-800">Website: </span>
+                  {product.website ? (
+                    <a href={product.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      {product.website}
+                    </a>
+                  ) : (
+                    <span className="text-gray-600">N/A</span>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  <Calendar size={20} className="text-[#6b3e26]" />
+                  <span className="font-medium text-gray-800">Founded: </span>
+                  <span className="text-gray-600">{product.foundingYear || "N/A"}</span>
                 </div>
               </div>
             </div>
@@ -238,7 +273,6 @@ const ProductTabs = ({
             <div className="space-y-4">
               {milestones.map((milestone, index) => {
                 const status = getMilestoneStatus(index);
-                // Safely get the icon component
                 const IconComponent = getIconComponent(milestone.icon);
                 const releaseAmount = (safeEscrowData.totalAmount * milestone.percentage) / 100;
                 
