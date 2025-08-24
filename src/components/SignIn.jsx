@@ -51,7 +51,7 @@ function SignIn() {
             className="w-12 h-12 rounded-full shadow-md"
           />
           <span className="ml-3 text-2xl font-bold text-[#6b3e26]">
-            FirstFound
+            Originn
           </span>
         </div>
 

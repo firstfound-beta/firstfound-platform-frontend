@@ -11,7 +11,7 @@ function Register() {
     email: "",
     password: "",
     country: "India",
-    role: "user", // Single role selected
+    role: "user", 
   });
 
   const handleChange = (e) => {
@@ -60,7 +60,7 @@ function Register() {
             className="w-12 h-12 rounded-full shadow-md"
           />
           <span className="ml-3 text-2xl font-bold text-[#6b3e26]">
-            FirstFound
+            Originn
           </span>
         </div>
 
