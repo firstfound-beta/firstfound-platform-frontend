@@ -86,13 +86,13 @@ function About() {
     },
     {
       name: "Abhijeet Kumar Shah",
-      role: "Software Engineer",
+      role: "Software Engineer(Founding Member)",
       bio: "NST Delhi.",
       image: "https://t3.ftcdn.net/jpg/07/40/66/04/360_F_740660413_jMpbvqGDfKQfBfncRYnZRJT70rIRHIaX.jpg"
     },
     {
       name: "Bhavani Shanker",
-      role: "Software Engineer",
+      role: "Software Engineer(Founding Member)",
       bio: "NST Delhi.",
       image: "https://t3.ftcdn.net/jpg/07/40/66/04/360_F_740660413_jMpbvqGDfKQfBfncRYnZRJT70rIRHIaX.jpg"
     }
