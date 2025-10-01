@@ -346,7 +346,7 @@ function Navbar() {
               Preorder
             </Link>
             <a
-              href="https://startup-originn.vercel.app/login"
+              href="https://startup-originn.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#6b3e26] text-sm lg:text-base font-medium hover:text-[#a0522d] transition-all duration-300 hover:scale-105 whitespace-nowrap"
