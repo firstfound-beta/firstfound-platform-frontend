@@ -213,6 +213,7 @@ function AppContent() {
           <Route path="/about" element={<About />} />
           <Route path="/forinvestor" element={<ForInvestor />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
+          {/* <Route path="/login" element={<LoginPage />} /> */}
           <Route
             path="/dashboard"
             element={
